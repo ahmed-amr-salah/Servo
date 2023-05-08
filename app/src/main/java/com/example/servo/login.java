@@ -1,5 +1,6 @@
 package com.example.servo;
 
+import com.example.servo.User;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,14 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class login extends AppCompatActivity {
 
     EditText UserName,Password;
     TextView toSignUp;
     Button Login;
     FirebaseAuth auth;
-
-
+    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +40,15 @@ public class login extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username=UserName.getText().toString().trim();
-                String password = Password.getText().toString().trim();
-                loginUser(username,password);
+                if(user.getEmail().isEmpty() || user.getPassword().isEmpty())
+                {
+                    Toast.makeText(login.this, " Enter Your Credentials ",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    user.setEmail(UserName.getText().toString().trim());
+                    user.setPassword(Password.getText().toString().trim());
+                    loginUser(user.getEmail(), user.getPassword());
+                }
             }
         });
 

@@ -31,9 +31,9 @@ import java.util.Map;
 public class Register extends AppCompatActivity {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     EditText Name,PhoneNumber,SID,Email,Password,ConfirmPassword;
-    Button SignUp;String email;String password;String name;String phone_number;String ID;String Confirm;String UserID;
-    DocumentReference documentReference1;
+    Button SignUp;String Confirm;
     FirebaseFirestore db;
+    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,32 +49,29 @@ public class Register extends AppCompatActivity {
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = Email.getText().toString().trim();
-                password = Password.getText().toString().trim();
-                name = Name.getText().toString().trim();
-                phone_number= PhoneNumber.getText().toString().trim();
-                ID = SID.getText().toString().trim();
+                user.setEmail(Email.getText().toString().trim());
+                user.setPassword(Password.getText().toString().trim());
+                user.setName(Name.getText().toString().trim());
+                user.setPhoneNumber(PhoneNumber.getText().toString().trim());
+                user.setUID(SID.getText().toString().trim());
                 Confirm = ConfirmPassword.getText().toString().trim();
 
-                if(!password.equals(Confirm)){
+                if(!user.getPassword().equals(Confirm)){
                     Toast.makeText(Register.this, "Password is not the same!", Toast.LENGTH_SHORT).show();
 
                 }else {
-                    // Check if name or password are not entered
-                    if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)|| TextUtils.isEmpty(phone_number)|| TextUtils.isEmpty(name)||TextUtils.isEmpty(ID)) {
+                    // Check if name or user.getpassword() are not entered
+                    if (TextUtils.isEmpty(user.getEmail()) || TextUtils.isEmpty(user.getPassword())|| TextUtils.isEmpty(user.getPhoneNumber())|| TextUtils.isEmpty(user.getName())||TextUtils.isEmpty(user.getUID())) {
                        Toast.makeText(Register.this, "Empty credentials!", Toast.LENGTH_SHORT).show();
                     }
                     // Check if password is too short!
-                    else if (password.length() < 6) {
+                    else if (user.getPassword().length() < 6) {
                         Toast.makeText(Register.this, "Password too short", Toast.LENGTH_SHORT).show();
                     } else {
-                        registerUser(email,password);
-                        db = FirebaseFirestore.getInstance();
+                        registerUser(user.getEmail(),user.getPassword());
+                        //db = FirebaseFirestore.getInstance();
                     }
                 }
-
-
-
             }
         });
 
@@ -88,7 +85,7 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Register.this, "Registering user successful!", Toast.LENGTH_SHORT).show();
-                            createUser();
+                            user.storeUser();
                             startActivity(new Intent(Register.this,login.class));
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         } else {
@@ -100,44 +97,5 @@ public class Register extends AppCompatActivity {
                 });
     }
 
-    public void createUser() {
-        // Check that db and mAuth are initialized
-        if (db == null || mAuth == null) {
-            System.out.println("db or mAuth is null");
-            return;
-        }
-
-        // Check that name, phone_number, and ID are initialized
-        if (name == null || phone_number == null || ID == null) {
-            System.out.println("name, phone_number, or ID is null");
-            return;
-        }
-
-        // Create a map with the user data
-        Map<String, Object> user = new HashMap<>();
-        user.put("Name", name);
-        user.put("Phone Number", phone_number);
-        user.put("SID", ID);
-        user.put("Customer", "Yes");
-
-        // Get the current user's ID
-        String userID = mAuth.getCurrentUser().getUid();
-
-        // Get a reference to the user document
-        DocumentReference userRef = db.collection("Users").document(userID);
-
-        // Set the user data
-        userRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                System.out.println("User is stored successfully");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        });
-    }
 
 }
