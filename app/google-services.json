@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "687289524565",
+    "project_id": "servo-74566",
+    "storage_bucket": "servo-74566.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687289524565:android:0a0780def8d51efe2c8fdc",
+        "android_client_info": {
+          "package_name": "com.example.servo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687289524565-jv325irh389up0hmuvpb7638o9a2uvgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsopnnEXVbJDQMmqZIq-Ms8aXX9PmcMvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687289524565-jv325irh389up0hmuvpb7638o9a2uvgs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
