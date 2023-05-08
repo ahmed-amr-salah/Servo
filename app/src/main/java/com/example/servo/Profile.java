@@ -3,14 +3,10 @@ package com.example.servo;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.servo.Restaurant;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +48,7 @@ public class Profile extends AppCompatActivity {
             public void onItemClick(Restaurant restaurant) {
                 // Handle the item click event
                 // For example, you can open a new activity or show a dialog
-                startActivity(new Intent(Profile.this,menu.class));
+                startActivity(new Intent(Profile.this, Menu.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
