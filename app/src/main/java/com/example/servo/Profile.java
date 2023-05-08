@@ -1,30 +1,61 @@
 package com.example.servo;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.servo.Restaurant;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Profile extends AppCompatActivity {
 
-    Button SignOut;
+    private RecyclerView restaurantsRecyclerView;
+    private RestaurantAdapter restaurantAdapter;
+    private List<Restaurant> restaurantList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        getSupportActionBar().hide();
-        SignOut = findViewById(R.id.btn3);
+        Log.d("Ahmed","Ahmed is here");
+        //Toast.makeText(Profile.this, "I am here in profile ", Toast.LENGTH_SHORT).show();
+        // Initialize the RecyclerView
+        restaurantsRecyclerView = findViewById(R.id.restaurantsRecyclerView);
+        restaurantsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        SignOut.setOnClickListener(new View.OnClickListener() {
+        // Initialize the restaurant list
+        restaurantList = new ArrayList<>();
+        // Add restaurants to the list
+        restaurantList.add(new Restaurant(R.drawable.relish, "Relish"));
+        restaurantList.add(new Restaurant(R.drawable.tabali , "Tabali"));
+        restaurantList.add(new Restaurant(R.drawable.cilantro, "Cilantro"));
+
+
+
+
+        // Initialize the RestaurantAdapter
+        restaurantAdapter = new RestaurantAdapter(restaurantList);
+
+        // Set the adapter on the RecyclerView
+        restaurantsRecyclerView.setAdapter(restaurantAdapter);
+
+        restaurantAdapter.setOnItemClickListener(new RestaurantAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Profile.this,login.class));
+            public void onItemClick(Restaurant restaurant) {
+                // Handle the item click event
+                // For example, you can open a new activity or show a dialog
+                startActivity(new Intent(Profile.this,menu.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
-
 
     }
 }

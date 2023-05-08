@@ -40,15 +40,9 @@ public class login extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user.getEmail().isEmpty() || user.getPassword().isEmpty())
-                {
-                    Toast.makeText(login.this, " Enter Your Credentials ",Toast.LENGTH_SHORT).show();
-                }
-                else {
                     user.setEmail(UserName.getText().toString().trim());
                     user.setPassword(Password.getText().toString().trim());
                     loginUser(user.getEmail(), user.getPassword());
-                }
             }
         });
 
@@ -70,7 +64,7 @@ public class login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(login.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(login.this, Profile.class));
+                    startActivity(new Intent(login.this,Profile.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     // To prevent coming to this activity when the user presses back!
                     finish();
